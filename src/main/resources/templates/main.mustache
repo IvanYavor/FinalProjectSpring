@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<html>
+
+<body>
+    <div>
+        <form action="/logout" method="post">
+            <input type="hidden" name="_csrf" value="{{_csrf.token}}" />
+            <input type="submit" value="Sign Out"/>
+        </form>
+    </div>
+    <div>
+        <form method="post">
+            <input type="text" name="name" placeholder="Enter name">
+            <input type="text" name="faculty" placeholder="Enter faculty">
+            <input type="text" name="grouping" placeholder="Enter group">
+            <input type="hidden" name="_csrf" value="{{_csrf.token}}" />
+
+            <button type="submit">Add</button>
+        </form>
+    </div>
+    <div>List of students: </div>
+    <form method="post" action="filter">
+        <input type="text" name="filter">
+        <input type="hidden" name="_csrf" value="{{_csrf.token}}" />
+        <button type="submit">Find</button>
+    </form>
+        {{#students}}
+        <div>
+            <b>{{name}}</b>
+            <span>{{faculty}}</span>
+            <i>{{grouping}}</i>
+        </div>
+        {{/students}}
+</body>
+
+</html>
