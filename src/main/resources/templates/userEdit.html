@@ -1,0 +1,43 @@
+
+<!--<#import "parts/common.ftl" as c>-->
+
+<!--<@c.page>-->
+<!--User editor-->
+
+<!--<form action="/user" method="post">-->
+<!--    <input type="text" name="username" value="${user.username}">-->
+<!--    <#list roles as role>-->
+<!--    <div>-->
+<!--        <label><input type="checkbox" name="${role}" ${user.roles?seq_contains(role)?string("checked", "")}>${role}</label>-->
+<!--    </div>-->
+<!--</#list>-->
+<!--<input type="hidden" value="${user.id}" name="userId">-->
+<!--<input type="hidden" value="${_csrf.token}" name="_csrf">-->
+<!--<button type="submit">Save</button>-->
+<!--</form>-->
+<!--</@c.page>-->
+
+
+
+
+
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User Editor</title>
+</head>
+<body>
+<div>User editor</div>
+
+<form action="/user" method="post">
+    <input type="text"   name="username" th:value="${user.username}">
+    <div th:each="role : ${roles}">
+        <input th:id="${role}" type="checkbox" th:name="roles[]" th:value="${role}" th:checked="${#lists.contains(user.roles, role)}" />
+        <label th:text="${role}" /></label>
+    </div>
+    <input type="hidden" th:value="${user.id}" name="userId">
+    <button type="submit">Save</button>
+</form>
+</body>
+</html>

@@ -19,8 +19,8 @@
         </form>
     </div>
     <div>List of students: </div>
-    <form method="post" action="filter">
-        <input type="text" name="filter">
+    <form method="get" action="/main">
+        <input type="text" name="filter" value={{filter}}>
         <input type="hidden" name="_csrf" value="{{_csrf.token}}" />
         <button type="submit">Find</button>
     </form>
