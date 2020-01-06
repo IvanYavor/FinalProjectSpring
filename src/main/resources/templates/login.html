@@ -1,0 +1,111 @@
+<!--<!DOCTYPE html>-->
+<!--<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"-->
+<!--      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">-->
+<!--<head>-->
+<!--    <meta charset="ISO-8859-1" />-->
+<!--    <title>Login Page</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div th:if="${param.error}">-->
+<!--    Invalid username and password.-->
+<!--</div>-->
+<!--<div th:if="${param.logout}">-->
+<!--    You have been logged out.-->
+<!--</div>-->
+<!--<form th:action="@{/login}" method="post">-->
+<!--    <div><label th:text="#{lang.registration.username}"></label>:-->
+<!--        <input type="text" name="username"/>-->
+<!--    </div>-->
+<!--    <div>-->
+<!--        <label th:text="#{lang.registration.password}"> </label>:-->
+<!--        <input type="password" name="password"/>-->
+<!--    </div>-->
+<!--    <div>-->
+<!--        <input type="submit" th:value="#{lang.login.signin}"/>-->
+<!--    </div>-->
+<!--</form>-->
+<!--<a href="/registration" th:text="#{lang.registration.create_account}"></a>-->
+<!--</body>-->
+<!--</html>-->
+
+<!--BOOTSTRAP-->
+<!--    |-->
+<!--<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">-->
+<!--<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>-->
+<!--<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>-->
+<!--&lt;!&ndash;&#45;&#45;&#45;&#45; Include the above in your HEAD tag &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&ndash;&gt;-->
+
+<!--<div class="wrapper fadeInDown">-->
+<!--    <div id="formContent">-->
+<!--        &lt;!&ndash; Tabs Titles &ndash;&gt;-->
+
+<!--        &lt;!&ndash; Icon &ndash;&gt;-->
+<!--        <div class="fadeIn first">-->
+<!--            <img src="http://danielzawadzki.com/codepen/01/icon.svg" id="icon" alt="User Icon" />-->
+<!--        </div>-->
+
+<!--        &lt;!&ndash; Login Form &ndash;&gt;-->
+<!--        <form>-->
+<!--            <input type="text" id="login" class="fadeIn second" name="login" placeholder="login">-->
+<!--            <input type="text" id="password" class="fadeIn third" name="login" placeholder="password">-->
+<!--            <input type="submit" class="fadeIn fourth" value="Log In">-->
+<!--        </form>-->
+
+<!--        &lt;!&ndash; Remind Passowrd &ndash;&gt;-->
+<!--        <div id="formFooter">-->
+<!--            <a class="underlineHover" href="#">Forgot Password?</a>-->
+<!--        </div>-->
+
+<!--    </div>-->
+<!--</div>-->
+
+
+
+
+
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:utext="#{lang.login.login_page}"></title>
+</head>
+<body>
+<div style="text-align: right;padding:5px;margin:5px 0px;background:#ccc;">
+    <a th:href="@{/login?lang=en}">Login (English)</a>
+    &nbsp;|&nbsp;
+    <a th:href="@{/login?lang=uk}">Login (Ukrainian)</a>
+    &nbsp;|&nbsp;
+
+</div>
+<body>
+<div th:if="${param.error}">
+    Invalid username and password.
+</div>
+<div th:if="${param.logout}">
+    You have been logged out.
+</div>
+
+<form method="post"  th:action="@{/login}">
+    <table>
+        <tr>
+            <td>
+                <strong th:utext="#{lang.registration.username}"></strong>
+            </td>
+            <td><input name="username" /></td>
+        </tr>
+        <tr>
+            <td>
+                <strong  th:utext="#{lang.registration.password}"></strong>
+            </td>
+            <td><input type="password" name="password" /></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <input type="submit" th:value="#{lang.login.signin}" />
+            </td>
+        </tr>
+    </table>
+</form>
+<a href="/registration" th:text="#{lang.registration.create_account}"></a>
+</body>
+</html>

@@ -65,4 +65,9 @@ public class MainController {
         return "main";
     }
 
+    @GetMapping("/international")
+    public String getInternationalPage() {
+        return "international.html";
+    }
+
 }
