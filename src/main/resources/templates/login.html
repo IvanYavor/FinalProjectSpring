@@ -79,7 +79,7 @@
 </div>
 <body>
 <div th:if="${param.error}">
-    Invalid username and password.
+    Invalid username or password.
 </div>
 <div th:if="${param.logout}">
     You have been logged out.
@@ -91,7 +91,7 @@
             <td>
                 <strong th:utext="#{lang.registration.username}"></strong>
             </td>
-            <td><input name="username" /></td>
+            <td><input name="username" type="text" /></td>
         </tr>
         <tr>
             <td>

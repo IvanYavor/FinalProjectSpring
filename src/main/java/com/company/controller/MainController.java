@@ -2,7 +2,6 @@ package com.company.controller;
 
 
 import com.company.domain.Student;
-import com.company.domain.User;
 import com.company.repository.StudentRepository;
 import com.company.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +25,7 @@ public class MainController {
     @GetMapping("/")
     public String greeting(Map<String, Object> model) {
 
-        return "greeting";
+        return "greeting.html";
     }
 
     @GetMapping("/main")
@@ -60,9 +59,5 @@ public class MainController {
     }
 
 
-    @GetMapping("/international")
-    public String getInternationalPage() {
-        return "international.html";
-    }
 
 }

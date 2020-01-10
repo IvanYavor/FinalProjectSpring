@@ -14,7 +14,6 @@ public class Student {
     private String grouping;
 
     public Student() {
-
     }
 
     public Student(String name, String faculty, String group) {

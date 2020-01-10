@@ -1,0 +1,34 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:utext="#{lang.registration.registration_page}"></title>
+</head>
+<body>
+<h1 th:text="'Welcome to your profile ' + ${user.username}"></h1>
+<div th:text="'Your full name is ' + ${user.fullName}"></div>
+<div th:text="'You are ' + ${#lists.contains(user.roles, admin)? 'Admin': 'Student'}" ></div>
+
+
+    <div>
+        <form th:action="@{/profile}" method="post">
+            <div th:each="s : ${specialities}">
+                <input type="radio" th:value="${s}" name="speciality" />
+                <label th:text="${s}" /></label>
+            </div>
+
+            <div><strong>For Chemist:</strong></div>
+            <div th:each="c : ${classesForChemist}" th:text=" ${c} "></div>
+            <div1><strong>For Doctor</strong></div1>
+            <div th:each="c : ${classesForDoctor}" th:text=" ${c} "></div>
+            <button type="submit">Apply</button>
+        </form>
+
+        <tr th:each="instance : ${user.scores}">
+            <td th:text="${instance.key}">keyvalue</td>
+            <td th:text="${instance.value}">num</td>
+        </tr>
+
+    </div>
+    </body>
+    </html>

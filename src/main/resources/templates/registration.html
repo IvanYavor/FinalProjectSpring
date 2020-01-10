@@ -75,6 +75,13 @@
             <td><input type="password" name="password" /></td>
         </tr>
         <tr>
+            <td>
+                <strong  th:utext="#{lang.registration.fullName}"></strong>
+            </td>
+            <td><input type="text" name="fullName" /></td>
+        </tr>
+
+        <tr>
             <td colspan="2">
                 <input type="submit" th:value="#{lang.registration.create_account}" />
             </td>
