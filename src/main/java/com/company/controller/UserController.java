@@ -2,10 +2,10 @@ package com.company.controller;
 
 import com.company.domain.Role;
 import com.company.domain.User;
+import com.company.exception.RangeScoreException;
 import com.company.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -30,30 +30,40 @@ public class UserController {
     @GetMapping("{user}")
     public String userEditForm(@PathVariable User user, Model model) {
         model.addAttribute("user", user);
+        model.addAttribute("id", user.getId());
         model.addAttribute("roles", Role.values());
-        model.addAttribute("scores", user.getScores());
-
+        if(user.getSpecialityClass() != null) {
+            model.addAttribute("scoresMap", user.getSpecialityClass().getClassNameScoreMap());
+        }
         return "userEdit";
     }
+
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
     public String userSave(
             @RequestParam String username,
             @RequestParam Map<String, String> form,
-            @RequestParam("userId") User user
+            @RequestParam("userId") User user,
+            Model model
     ) {
-        userService.saveUser(user, username, form);
-
+        try {
+            userService.saveUser(user, username, form);
+        } catch (RangeScoreException e) {
+            model.addAttribute("ScoreErrors", "Score should be in range");
+            model.addAttribute("user", user);
+            model.addAttribute("roles", Role.values());
+            if(user.getSpecialityClass() != null) {
+                model.addAttribute("scoresMap", user.getSpecialityClass().getClassNameScoreMap());
+            }
+            return "userEdit";
+        }
         return "redirect:/user";
     }
 
-
-//    @GetMapping("profile")
-//    public String getProfile(Model model, @AuthenticationPrincipal  User  user) {
-//        model.addAttribute("user", user);
-//        model.addAttribute("admin", Role.ADMIN);
-//        return "profile";
-//    }
+    @GetMapping("/errorScore")
+    public String getErrorScore() {
+        return "errorScore";
+    }
 
 }

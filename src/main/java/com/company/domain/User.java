@@ -2,12 +2,12 @@ package com.company.domain;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+
 import java.util.Set;
 
 @Entity
@@ -16,21 +16,27 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @NotNull
+    @Size(min=2, max=20, message="Invalid Username")
     private String username;
+
+    @NotNull
+    @Pattern(regexp= "^[A-Z][a-z]*(\\s[A-Z][a-z]*)+$", message="Invalid Full Name")
     private String fullName;
-//
-//    @ManyToOne
-//    @JoinColumn(name="user_id")
-//    private SpecialityClass specialityClass;
 
-    @ElementCollection(fetch=FetchType.EAGER)
-    @CollectionTable(name="user_scores2")
-    @MapKeyColumn(name="classLesson")
-    @Column(name="score")
-    private Map<String, Integer> scores = new HashMap<String, Integer>();
 
-    private String email;
+   @ManyToOne(cascade = {CascadeType.ALL})
+   @CollectionTable(name="speciality_class_in_user", joinColumns = @JoinColumn(name="user_id", nullable=false) )
+    private SpecialityClass specialityClass = new SpecialityClass();
+
+    @NotNull
+    @Size(min = 1, max=36, message="Invalid Password")
     private String password;
+
+    @Column(name="is_accepted", columnDefinition="boolean default false")
+    private boolean isAccepted;
+
+    @Column(columnDefinition = "boolean default true")
     private boolean active;
 
     @ElementCollection(targetClass =  Role.class, fetch = FetchType.EAGER)
@@ -74,25 +80,25 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return isActive();
+        return true;
     }
 
-
-    public Map<String, Integer> getScores() {
-        return scores;
+    public boolean isAccepted() {
+        return isAccepted;
     }
 
-//    public SpecialityClass getSpecialityClass() {
-//        return specialityClass;
-//    }
-//
-//    public void setSpecialityClass(SpecialityClass specialityClass) {
-//        this.specialityClass = specialityClass;
-//    }
-
-    public void setScores(Map<String, Integer> scores) {
-        this.scores = scores;
+    public void setAccepted(boolean accepted) {
+        isAccepted = accepted;
     }
+
+    public SpecialityClass getSpecialityClass() {
+        return specialityClass;
+    }
+
+    public void setSpecialityClass(SpecialityClass specialityClass) {
+        this.specialityClass = specialityClass;
+    }
+
 
     public void setUsername(String username) {
         this.username = username;
@@ -102,18 +108,18 @@ public class User implements UserDetails {
         return fullName;
     }
 
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
     public void setFullName(String fullName) {
         this.fullName = fullName;
     }
 
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
 
     public void setId(Long id) {
         this.id = id;
@@ -132,13 +138,13 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
+//    public boolean isActive() {
+//        return active;
+//    }
+//
+//    public void setActive(boolean active) {
+//        this.active = active;
+//    }
 
     public Set<Role> getRoles() {
         return roles;

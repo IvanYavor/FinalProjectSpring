@@ -5,30 +5,47 @@
     <title th:utext="#{lang.registration.registration_page}"></title>
 </head>
 <body>
-<h1 th:text="'Welcome to your profile ' + ${user.username}"></h1>
-<div th:text="'Your full name is ' + ${user.fullName}"></div>
-<div th:text="'You are ' + ${#lists.contains(user.roles, admin)? 'Admin': 'Student'}" ></div>
+<div style="text-align: right;padding:5px;margin:5px 0px;background:#ccc;">
+    <a th:href="@{/profile?lang=en}" th:text="#{lang.en}"></a>
+    &nbsp;|&nbsp;
+    <a th:href="@{/profile?lang=uk}" th:text="#{lang.uk}"></a>
+    &nbsp;|&nbsp;
+
+</div>
 
 
-    <div>
+<a href="login?logout" th:text="#{lang.login.logout}"></a>
+
+<h1 th:text="#{lang.profile.welcome} + ${user.username}"></h1>
+<div th:text="#{lang.profile.full_name} + ${user.fullName}"></div>
+<div th:text="#{lang.profile.you_are} + ${#lists.contains(user.roles, admin)? 'Admin' : 'Student'}" ></div>
+
+
+    <div th:if="${!#lists.contains(user.roles, admin) }">
         <form th:action="@{/profile}" method="post">
-            <div th:each="s : ${specialities}">
-                <input type="radio" th:value="${s}" name="speciality" />
-                <label th:text="${s}" /></label>
+            <div th:if="${user.getSpecialityClass() != null}" th:text=" #{lang.profile.speciality} + ${user.getSpecialityClass().getName()}"></div>
+            <div th:text="#{lang.scores}"></div>
+            <div th:if="${scoresMap != null}">
+                <div th:each="key : ${scoresMap.keySet()}"  >
+                    <span th:text="${key}"></span>
+                    <span th:text="${scoresMap.get(key)}"></span>
+                </div>
+            </div>
+            <div th:if="${user.specialityClass.classNameScoreMap.isEmpty()}">
+                <div th:text="#{lang.profile.choose_speciality}"></div>
+                <div th:each="s : ${specialities}">
+                    <input type="radio" th:value="${s}" name="speciality" />
+                    <label th:text="${s}" /></label>
+                </div>
+                <button type="submit" th:text="#{lang.apply}"></button>
             </div>
 
-            <div><strong>For Chemist:</strong></div>
-            <div th:each="c : ${classesForChemist}" th:text=" ${c} "></div>
-            <div1><strong>For Doctor</strong></div1>
-            <div th:each="c : ${classesForDoctor}" th:text=" ${c} "></div>
-            <button type="submit">Apply</button>
         </form>
 
-        <tr th:each="instance : ${user.scores}">
-            <td th:text="${instance.key}">keyvalue</td>
-            <td th:text="${instance.value}">num</td>
-        </tr>
+        <h1 th:if="${user.accepted == true}" th:text="#{lang.accepted}"></h1>
+        <h1 th:if="${user.accepted != true}" th:text="#{lang.not_accepted}"></h1>
 
     </div>
+    <a href="/user" th:if="${#lists.contains(user.roles, admin)}" th:text="#{lang.all_students}"></a>
     </body>
     </html>

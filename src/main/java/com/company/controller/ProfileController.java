@@ -28,26 +28,19 @@ public class ProfileController {
         model.addAttribute("user", user);
         model.addAttribute("admin", Role.ADMIN);
         model.addAttribute("specialities", Specialty.values());
-        model.addAttribute("classesForDoctor", ClassLessonsForChemist.values());
-        model.addAttribute("classesForChemist", ClassLessonsForChemist.values());
-
-
+        if(!user.getRoles().contains(Role.ADMIN)) {
+            model.addAttribute("scoresMap", user.getSpecialityClass().getClassNameScoreMap());
+        }
         return "profile";
     }
 
     @PostMapping
     public String submitClassForm(@RequestParam String speciality,
                                   @AuthenticationPrincipal User user) {
-        userService.saveClasses(speciality, user);
+        userService.saveSpeciality(speciality, user);
 
         return "redirect:/profile";
     }
 
-//    @PostMapping
-//    public String submitClassForm(@RequestParam String speciality,
-//                           @AuthenticationPrincipal User user) {
-//        userService.saveSpeciality(speciality, user);
-//
-//        return "redirect:/profile";
-//    }
+
 }

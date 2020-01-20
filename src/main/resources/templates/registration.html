@@ -1,50 +1,3 @@
-<!--<!DOCTYPE html>-->
-<!--<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"-->
-<!--      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">-->
-<!--<head>-->
-<!--    <meta charset="ISO-8859-1" />-->
-<!--    <title>Registration Page</title>-->
-<!--</head>-->
-<!--<body>-->
-
-<!--<form th:action="@{/registration}" method="post">-->
-<!--    <div><label th:text="#{lang.registration.username}"></label>:-->
-<!--        <input type="text" name="username"/>-->
-<!--    </div>-->
-<!--    <div>-->
-<!--        <label th:text="#{lang.registration.password}"> </label>:-->
-<!--        <input type="password" name="password"/>-->
-<!--    </div>-->
-<!--    <div>-->
-<!--        <input type="submit" th:value="#{lang.registration.create_account}"/>-->
-<!--    </div>-->
-<!--</form>-->
-<!--</body>-->
-<!--</html>-->
-
-
-<!--!DOCTYPE html>-->
-<!--<html xmlns="http://www.w3.org/1999/xhtml">-->
-<!--<head>-->
-<!--    <title>Spring Security Example </title>-->
-<!--</head>-->
-<!--<body>-->
-<!--Add new user-->
-<!--{{#message}}-->
-<!--{{message}}-->
-<!--{{/message}}-->
-<!--<form action="/registration" method="post">-->
-<!--    <div><label> User Name : <input type="text" name="username"/> </label></div>-->
-<!--    <div><label> Password: <input type="password" name="password"/> </label></div>-->
-<!--    <input type="hidden" name="_csrf" value="{{_csrf.token}}" />-->
-<!--    <div><input type="submit" value="Sign In"/></div>-->
-<!--</form>-->
-<!--</body>-->
-<!--</html>-->
-
-
-
-
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -53,32 +6,36 @@
 </head>
 <body>
 <div style="text-align: right;padding:5px;margin:5px 0px;background:#ccc;">
-    <a th:href="@{/registration?lang=en}">Registration (English)</a>
+    <a th:href="@{/registration?lang=en}" th:text="#{lang.registration.registration_eng}"></a>
     &nbsp;|&nbsp;
-    <a th:href="@{/registration?lang=uk}">Registration (Ukrainian)</a>
+    <a th:href="@{/registration?lang=uk}" th:text="#{lang.registration.registration_uk}"></a>
     &nbsp;|&nbsp;
 
 </div>
 <p th:text="${message}"></p>
-<form th:action="@{/registration}" method="post">
+<form th:action="@{/registration}" method="post" th:object="${user}">
     <table>
         <tr>
             <td>
                 <strong th:utext="#{lang.registration.username}"></strong>
             </td>
-            <td><input name="username" /></td>
+            <td><input name="username"    th:field="${user.username}"/></td>
+            <td th:if="${#fields.hasErrors('username')}" th:errors="*{username}">User Name Error</td>
         </tr>
         <tr>
             <td>
                 <strong  th:utext="#{lang.registration.password}"></strong>
             </td>
-            <td><input type="password" name="password" /></td>
+            <td><input type="password" name="password" th:field="${user.password}"/></td>
+            <td th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error</td>
         </tr>
         <tr>
             <td>
                 <strong  th:utext="#{lang.registration.fullName}"></strong>
             </td>
-            <td><input type="text" name="fullName" /></td>
+            <td><input type="text" name="fullName" th:field="${user.fullName}"/></td>
+            <td th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}">Full Name Error</td>
+
         </tr>
 
         <tr>

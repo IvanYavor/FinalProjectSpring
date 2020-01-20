@@ -5,24 +5,37 @@
     <title>List Of Users</title>
 </head>
 <body>
-<div>List of users</div>
+<div style="text-align: right;padding:5px;margin:5px 0px;background:#ccc;">
+    <a th:href="@{/user?lang=en}" th:text="#{lang.en}"></a>
+    &nbsp;|&nbsp;
+    <a th:href="@{/user?lang=uk}" th:text="#{lang.uk}"></a>
+    &nbsp;|&nbsp;
+
+</div>
+
+
+<a href="login?logout" th:text="#{lang.login.logout}"></a>
+
+<div th:text="#{lang.all_students}"></div>
 <div>
     <table>
         <thead>
-        <tr>
-            <th>Name</th>
-            <th>Role</th>
+        <th>
+            <th th:text="#{lang.registration.username}"></th>
+            <th th:text="#{lang.registration.fullName}"></th>
+            <th th:text="#{lang.role}"></th>
             <th></th>
-        </tr>
+        </th>
         </thead>
         <tbody>
         <tr th:if="${users.empty}">
-            <td colspan="2"> No users </td>
+            <td colspan="2" th:text="#{lang.no_users}"></td>
         </tr>
         <tr th:each="user : ${users}">
-            <td><span th:text="${user.username}"> Name </span></td>
+            <td><span th:text="${user.username}"> User Name </span></td>
+            <td><span th:text="${user.fullName}">Full Name</span></td>
             <td><span th:text="${user.roles}"> Role </span></td>
-            <td><a th:href="@{'/user/' + ${user.id}}">Edit</a> </td>
+            <td><a th:href="@{'/user/' + ${user.id}}" th:text="#{lang.edit}"></a> </td>
         </tr>
         </tbody>
     </table>
