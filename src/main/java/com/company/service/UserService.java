@@ -1,6 +1,7 @@
 package com.company.service;
 
 
+import com.company.constant.Constant;
 import com.company.domain.*;
 import com.company.exception.RangeScoreException;
 import com.company.repository.UserRepository;
@@ -18,8 +19,11 @@ import static java.lang.Integer.parseInt;
 
 @Service
 public class UserService implements UserDetailsService {
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -39,52 +43,11 @@ public class UserService implements UserDetailsService {
         return true;
     }
 
+
     public List<User> findAll() {
         return userRepository.findAll();
     }
 
-    public List<User> getAllStudets() {
-        List<User> students = userRepository.findAllStudents();
-
-        return compareStudentScores(students);
-    }
-
-    private List<User> compareStudentScores(List<User> students) {
-        List<User> doctors = userRepository.findAllDoctorStudents();
-        List<User> chemists = userRepository.findAllChemistStudents();
-
-
-        Comparator<User> comparatorByScores = new Comparator<User>() {
-            @Override
-            public int compare(User user, User t1) {
-                Integer score1 = 0;
-                if(user.getSpecialityClass() != null) {
-                    for (String key : user.getSpecialityClass().getClassNameScoreMap().keySet()) {
-                        score1 += user.getSpecialityClass().getClassNameScoreMap().get(key);
-                    }
-                }
-
-                Integer score2 = 0;
-                if(t1.getSpecialityClass() != null ) {
-                    for (String key : t1.getSpecialityClass().getClassNameScoreMap().keySet()) {
-                        score2 += t1.getSpecialityClass().getClassNameScoreMap().get(key);
-                    }
-                }
-                return score2-score1;
-            }
-        };
-
-        Collections.sort(doctors, comparatorByScores);
-        Collections.sort(chemists, comparatorByScores);
-
-        students = Stream.concat(
-                doctors.stream(),
-                chemists.stream()
-        ).collect(Collectors.toList());
-
-        return students;
-
-    }
 
     public void saveUser(User user, String username, Map<String, String> form) throws RangeScoreException {
         Map<String, Integer> scores = new HashMap<>();
@@ -99,7 +62,6 @@ public class UserService implements UserDetailsService {
                 throw new RangeScoreException("Score is out of range");
             }
         }
-
 
 
         user.setUsername(username);
@@ -117,58 +79,27 @@ public class UserService implements UserDetailsService {
             }
         }
 
-
-
-
-
         user.getSpecialityClass().setClassNameScoreMap(scores);
 
-        user.setAccepted(checkIfAccepted(user));
+//        user.setAccepted(checkIfAccepted(user));
+        user.setAccepted(user.getSpecialityClass().isAccepted());
 
         userRepository.save(user);
     }
+
 
     private boolean checkRangeScore(Integer score) {
-        return score >= 0 && score <= 100;
+        return score >= Constant.MIN_SCORE && score <= Constant.MAX_SCORE;
     }
 
-    private boolean checkIfAccepted(User user) {
-        Map<String, Integer> scores = user.getSpecialityClass().getClassNameScoreMap();
-        for(String key : scores.keySet()) {
-            if(scores.get(key) < 70) {
-                return false;
-            }
-        }
-        return true;
-    }
+//    private boolean checkIfAccepted(User user) {
+//        Map<String, Integer> scores = user.getSpecialityClass().getClassNameScoreMap();
+//        for(String key : scores.keySet()) {
+//            if(scores.get(key) < 70) {
+//                return false;
+//            }
+//        }
+//        return true;
+//    }
 
-
-    public void saveSpeciality(String speciality, User user) {
-        Map<String, Integer> scores = getClassesForSpeciality(speciality);
-
-        for(Specialty s : Specialty.values()) {
-            if(s.toString().equals(speciality)) {
-                SpecialityClass c = new SpecialityClass(s, scores);
-                user.setSpecialityClass(c);
-            }
-        }
-
-
-        userRepository.save(user);
-    }
-
-    private Map<String, Integer> getClassesForSpeciality(String speciality) {
-        Map<String, Integer> scores = new HashMap<>();
-        if(speciality.equals(Specialty.DOCTOR.toString())) {
-            for(ClassLessonsForDoctor c : ClassLessonsForDoctor.values()) {
-                scores.put(c.toString(), 0);
-            }
-        } else if(speciality.equals(Specialty.CHEMIST.toString())) {
-            for(ClassLessonsForChemist c : ClassLessonsForChemist.values()) {
-                scores.put(c.toString(), 0);
-            }
-        }
-
-        return scores;
-    }
 }

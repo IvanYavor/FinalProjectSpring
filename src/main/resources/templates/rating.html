@@ -24,7 +24,19 @@
         <th th:text="#{lang.speciality}"></th>
         <th th:text="#{lang.scores}"></th>
     </tr>
-    <tr th:each="student : ${allStudents}">
+    <tr th:each="student : ${doctors}">
+        <td th:text="${student.fullName}"></td>
+        <td th:text="${student.specialityClass.name}"></td>
+        <td  th:text="${student.getSpecialityClass().getClassNameScoreMap()}"></td>
+    </tr>
+</table>
+<table>
+    <tr>
+        <th th:text="#{lang.registration.fullName}">Full Name</th>
+        <th th:text="#{lang.speciality}"></th>
+        <th th:text="#{lang.scores}"></th>
+    </tr>
+    <tr th:each="student : ${chemists}">
         <td th:text="${student.fullName}"></td>
         <td th:text="${student.specialityClass.name}"></td>
         <td  th:text="${student.getSpecialityClass().getClassNameScoreMap()}"></td>

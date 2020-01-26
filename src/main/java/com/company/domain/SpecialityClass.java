@@ -9,6 +9,11 @@ import java.util.Map;
 @Entity
 
 public class SpecialityClass {
+    static final Integer MIN_SCORE_FOR_ADMISSION = 70;
+    static final Integer MIN_SCORE = 0;
+    static final Integer MAX_SCORE= 100;
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -55,6 +60,19 @@ public class SpecialityClass {
 
     public void setClassNameScoreMap(Map<String, Integer> classNameScoreMap) {
         this.classNameScoreMap = classNameScoreMap;
+    }
+
+
+    public boolean isAccepted() {
+        Map<String, Integer> scores = getClassNameScoreMap();
+        if(scores != null) {
+            for (String key : scores.keySet()) {
+                if (scores.get(key) < MIN_SCORE_FOR_ADMISSION) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
 
