@@ -14,7 +14,10 @@
 </div>
 
 
-<a href="login?logout" th:text="#{lang.login.logout}"></a>
+<a href="login?logout" th:text="#{lang.login.logout}"></a><br>
+
+<a href="/rating" th:text="#{lang.rating}"></a>
+
 
 <h1 th:text="#{lang.profile.welcome} + ${user.username}"></h1>
 <div th:text="#{lang.profile.full_name} + ${user.fullName}"></div>
@@ -23,24 +26,26 @@
 
     <div th:if="${!#lists.contains(user.roles, admin) }">
         <form th:action="@{/profile}" method="post">
-            <div th:if="${user.getSpecialityClass() != null}" th:text=" #{lang.profile.speciality} + ${user.getSpecialityClass().getName()}"></div>
-            <div th:text="#{lang.scores}"></div>
-            <div th:if="${scoresMap != null}">
+            <div th:if="${user.getSpecialityClass().name != null}" th:text=" #{lang.profile.speciality} + ${user.getSpecialityClass().getName()}"></div>
+            <div th:if="${user.getSpecialityClass().name != null}">
+                <p th:text="#{lang.scores}"></p>
                 <div th:each="key : ${scoresMap.keySet()}"  >
                     <span th:text="${key}"></span>
                     <span th:text="${scoresMap.get(key)}"></span>
                 </div>
             </div>
-            <div th:if="${user.specialityClass.classNameScoreMap.isEmpty()}">
-                <div th:text="#{lang.profile.choose_speciality}"></div>
-                <div th:each="s : ${specialities}">
-                    <input type="radio" th:value="${s}" name="speciality" />
-                    <label th:text="${s}" /></label>
-                </div>
-                <button type="submit" th:text="#{lang.apply}"></button>
-            </div>
+<!--            <div th:if="${user.specialityClass.classNameScoreMap.isEmpty()}">-->
+<!--                <div th:text="#{lang.profile.choose_speciality}"></div>-->
+<!--                <div th:each="s : ${specialities}">-->
+<!--                    <input type="radio" th:value="${s}" name="speciality" />-->
+<!--                    <label th:text="${s}" /></label>-->
+<!--                </div>-->
+<!--                <button type="submit" th:text="#{lang.apply}"></button>-->
+<!--            </div>-->
 
         </form>
+
+        <a href="/reg-speciality" th:text="#{lang.reg-speciality.registration}"></a> <br>
 
         <h1 th:if="${user.accepted == true}" th:text="#{lang.accepted}"></h1>
         <h1 th:if="${user.accepted != true}" th:text="#{lang.not_accepted}"></h1>

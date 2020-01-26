@@ -1,6 +1,5 @@
 package com.company.controller;
 
-import com.company.domain.ClassLessonsForChemist;
 import com.company.domain.Role;
 import com.company.domain.Specialty;
 import com.company.domain.User;
@@ -14,32 +13,27 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.annotation.Resource;
-
 @Controller
-@RequestMapping("/profile")
-public class ProfileController {
-    @Resource(name = "userService")
-    private UserService userService;
-
+@RequestMapping("/reg-speciality")
+public class RegistrationSpecialityController {
+    @Autowired
+    UserService userService;
 
     @GetMapping
-    public String getProfile(Model model, @AuthenticationPrincipal User user) {
+    public String getSpecialityForm(Model model, @AuthenticationPrincipal User user) {
         model.addAttribute("user", user);
-        model.addAttribute("admin", Role.ADMIN);
         model.addAttribute("specialities", Specialty.values());
-        model.addAttribute("scoresMap", user.getSpecialityClass().getClassNameScoreMap());
+        model.addAttribute("admin", Role.ADMIN);
 
-        return "profile";
+        return "specialityFormReg";
     }
 
-//    @PostMapping
-//    public String submitClassForm(@RequestParam String speciality,
-//                                  @AuthenticationPrincipal User user) {
-//        userService.saveSpeciality(speciality, user);
-//
-//        return "redirect:/profile";
-//    }
 
+    @PostMapping
+    public String submitClassForm(@RequestParam String speciality,
+                                  @AuthenticationPrincipal User user) {
+        userService.saveSpeciality(speciality, user);
 
+        return "redirect:/profile";
+    }
 }

@@ -119,9 +119,11 @@ public class UserService implements UserDetailsService {
 
 
 
-        user.setAccepted(checkIfAccepted(user));
+
 
         user.getSpecialityClass().setClassNameScoreMap(scores);
+
+        user.setAccepted(checkIfAccepted(user));
 
         userRepository.save(user);
     }
