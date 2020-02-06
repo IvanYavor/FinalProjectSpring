@@ -71,19 +71,15 @@
 </head>
 <body>
 <div style="text-align: right;padding:5px;margin:5px 0px;background:#ccc;">
-    <a th:href="@{/login?lang=en}">Login (English)</a>
+    <a th:href="@{/login?lang=en}" th:text="#{lang.login.login_eng}"></a>
     &nbsp;|&nbsp;
-    <a th:href="@{/login?lang=uk}">Login (Ukrainian)</a>
+    <a th:href="@{/login?lang=uk}" th:text="#{lang.login.login_uk}"></a>
     &nbsp;|&nbsp;
 
 </div>
-<body>
-<div th:if="${param.error}">
-    Invalid username and password.
-</div>
-<div th:if="${param.logout}">
-    You have been logged out.
-</div>
+<div th:if="${param.error}" th:text="#{lang.login.error}"></div>
+
+<div th:if="${param.logout}" th:text="#{lang.login.logouted}"></div>
 
 <form method="post"  th:action="@{/login}">
     <table>
@@ -91,7 +87,7 @@
             <td>
                 <strong th:utext="#{lang.registration.username}"></strong>
             </td>
-            <td><input name="username" /></td>
+            <td><input name="username" type="text" /></td>
         </tr>
         <tr>
             <td>

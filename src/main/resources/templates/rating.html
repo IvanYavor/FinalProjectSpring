@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Rating</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+</head>
+<body>
+
+<div style="text-align: right;padding:5px;margin:5px 0px;background:#ccc;">
+    <a th:href="@{/rating?lang=en}" th:text="#{lang.en}"></a>
+    &nbsp;|&nbsp;
+    <a th:href="@{/rating?lang=uk}" th:text="#{lang.uk}"></a>
+    &nbsp;|&nbsp;
+
+</div>
+
+
+<a href="login?logout" th:text="#{lang.login.logout}"></a>
+<div th:text="#{lang.rating}"></div>
+<table>
+    <tr>
+        <th th:text="#{lang.registration.fullName}">Full Name</th>
+        <th th:text="#{lang.speciality}"></th>
+        <th th:text="#{lang.scores}"></th>
+    </tr>
+    <tr th:each="student : ${doctors}">
+        <td th:text="${student.fullName}"></td>
+        <td th:text="${student.specialityClass.name}"></td>
+        <td  th:text="${student.getSpecialityClass().getClassNameScoreMap()}"></td>
+    </tr>
+</table>
+<table>
+    <tr>
+        <th th:text="#{lang.registration.fullName}">Full Name</th>
+        <th th:text="#{lang.speciality}"></th>
+        <th th:text="#{lang.scores}"></th>
+    </tr>
+    <tr th:each="student : ${chemists}">
+        <td th:text="${student.fullName}"></td>
+        <td th:text="${student.specialityClass.name}"></td>
+        <td  th:text="${student.getSpecialityClass().getClassNameScoreMap()}"></td>
+    </tr>
+</table>
+</body>
+
+</html>

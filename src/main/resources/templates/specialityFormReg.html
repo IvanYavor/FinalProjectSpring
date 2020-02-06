@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:utext="#{lang.registration.registration_page}"></title>
+</head>
+<body>
+<div style="text-align: right;padding:5px;margin:5px 0px;background:#ccc;">
+    <a th:href="@{/reg-speciality?lang=en}" th:text="#{lang.en}"></a>
+    &nbsp;|&nbsp;
+    <a th:href="@{/reg-speciality?lang=uk}" th:text="#{lang.uk}"></a>
+    &nbsp;|&nbsp;
+
+</div>
+<a href="login?logout" th:text="#{lang.login.logout}"></a>
+
+
+<div th:if="${!#lists.contains(user.roles, admin)}">
+    <form  th:action="@{/reg-speciality}" method="post">
+        <div th:if="${user.specialityClass.classNameScoreMap.isEmpty()}">
+                        <div th:text="#{lang.profile.choose_speciality}"></div>
+                        <div th:each="s : ${specialities}">
+                            <input type="radio" th:value="${s}" name="speciality" />
+                            <label th:text="${s}" /></label>
+                        </div>
+                        <button type="submit" th:text="#{lang.apply}"></button>
+        </div>
+    </form>
+</div>
+<div th:if="${user.specialityClass.classNameScoreMap.isEmpty() != true}">
+    <p th:text="#{lang.reg-speciality.speciality} + ${user.specialityClass.name}"></p>
+</div>
+
+<div th:if="${#lists.contains(user.roles, admin)}">
+    <p th:text="#{lang.profile.you_are} + #{lang.admin}"></p>
+</div>
+
+
+
+</body>
+</html>

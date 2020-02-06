@@ -1,17 +1,42 @@
 package com.company.domain;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+import java.util.Collection;
+
 import java.util.Set;
 
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @NotNull
+    @Size(min=2, max=20, message="Invalid Username")
     private String username;
-    private String email;
+
+    @NotNull
+    @Pattern(regexp= "^[A-Z][a-z]*(\\s[A-Z][a-z]*)+$", message="Invalid Full Name")
+    private String fullName;
+
+
+   @ManyToOne(cascade = {CascadeType.ALL})
+   @CollectionTable(name="speciality_class_in_user", joinColumns = @JoinColumn(name="user_id", nullable=false) )
+    private SpecialityClass specialityClass = new SpecialityClass();
+
+    @NotNull
+    @Size(min = 1, max=36, message="Invalid Password")
     private String password;
+
+    @Column(name="is_accepted", columnDefinition="boolean default false")
+    private boolean isAccepted;
+
+    @Column(columnDefinition = "boolean default true")
     private boolean active;
 
     @ElementCollection(targetClass =  Role.class, fetch = FetchType.EAGER)
@@ -23,9 +48,9 @@ public class User {
     public User() {
     }
 
-    public User(String username, String email) {
+    public User(String username, String fullName) {
         this.username = username;
-        this.email = email;
+        this.fullName = fullName;
     }
 
 
@@ -38,20 +63,71 @@ public class User {
         return username;
     }
 
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
+    public boolean isAccepted() {
+        return isAccepted;
+    }
+
+    public void setAccepted(boolean accepted) {
+        isAccepted = accepted;
+    }
+
+    public SpecialityClass getSpecialityClass() {
+        return specialityClass;
+    }
+
+    public void setSpecialityClass(SpecialityClass specialityClass) {
+        this.specialityClass = specialityClass;
+    }
+
+
     public void setUsername(String username) {
         this.username = username;
     }
 
-    public String getEmail() {
-        return email;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public boolean isActive() {
+        return active;
     }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return getRoles();
     }
 
     public String getPassword() {
@@ -62,13 +138,13 @@ public class User {
         this.password = password;
     }
 
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
+//    public boolean isActive() {
+//        return active;
+//    }
+//
+//    public void setActive(boolean active) {
+//        this.active = active;
+//    }
 
     public Set<Role> getRoles() {
         return roles;
