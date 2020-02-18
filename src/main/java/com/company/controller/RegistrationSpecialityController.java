@@ -5,7 +5,6 @@ import com.company.domain.Specialty;
 import com.company.domain.User;
 import com.company.service.SpecialityService;
 import com.company.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

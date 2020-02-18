@@ -25,7 +25,6 @@ public class SpecialityService {
         return compareStudentScores(userRepository.findAllChemistStudents());
     }
 
-    //TODO optional
     private List<User> compareStudentScores(List<User> students) {
         Comparator<User> comparatorByScores = (user, t1) -> {
             Integer score1 = 0;
@@ -53,8 +52,8 @@ public class SpecialityService {
     public void saveSpeciality(String speciality, User user) {
         Map<String, Integer> scores = getClassesForSpeciality(speciality);
 
-        for(Specialty s : Specialty.values()) {
-            if(s.toString().equals(speciality)) {
+        for (Specialty s : Specialty.values()) {
+            if (s.toString().equals(speciality)) {
                 SpecialityClass c = new SpecialityClass(s, scores);
                 user.setSpecialityClass(c);
             }
@@ -66,12 +65,12 @@ public class SpecialityService {
 
     private Map<String, Integer> getClassesForSpeciality(String speciality) {
         Map<String, Integer> scores = new HashMap<>();
-        if(speciality.equals(Specialty.DOCTOR.toString())) {
-            for(ClassLessonsForDoctor c : ClassLessonsForDoctor.values()) {
+        if (speciality.equals(Specialty.DOCTOR.toString())) {
+            for (ClassLessonsForDoctor c : ClassLessonsForDoctor.values()) {
                 scores.put(c.toString(), 0);
             }
-        } else if(speciality.equals(Specialty.CHEMIST.toString())) {
-            for(ClassLessonsForChemist c : ClassLessonsForChemist.values()) {
+        } else if (speciality.equals(Specialty.CHEMIST.toString())) {
+            for (ClassLessonsForChemist c : ClassLessonsForChemist.values()) {
                 scores.put(c.toString(), 0);
             }
         }

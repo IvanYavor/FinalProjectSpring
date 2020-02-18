@@ -29,17 +29,16 @@ public class RegistrationController {
     @PostMapping("/registration")
     public String addUser(@Valid User user,
                           BindingResult bindingResult,
-                          Map<String, Object> model)  {
+                          Map<String, Object> model) {
 
-        if(bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             return "registration";
         }
 
         model.put("username", user.getUsername());
 
 
-
-        if(!userService.addUser(user)) {
+        if (!userService.addUser(user)) {
             model.put("message", "User exists");
             return "registration";
         }

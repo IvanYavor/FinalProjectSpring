@@ -21,10 +21,10 @@
     <table>
         <thead>
         <th>
-            <th th:text="#{lang.registration.username}"></th>
-            <th th:text="#{lang.registration.fullName}"></th>
-            <th th:text="#{lang.role}"></th>
-            <th></th>
+        <th th:text="#{lang.registration.username}"></th>
+        <th th:text="#{lang.registration.fullName}"></th>
+        <th th:text="#{lang.role}"></th>
+        <th></th>
         </th>
         </thead>
         <tbody>
@@ -35,7 +35,7 @@
             <td><span th:text="${user.username}"> User Name </span></td>
             <td><span th:text="${user.fullName}">Full Name</span></td>
             <td><span th:text="${user.roles}"> Role </span></td>
-            <td><a th:href="@{'/user/' + ${user.id}}" th:text="#{lang.edit}"></a> </td>
+            <td><a th:href="@{'/user/' + ${user.id}}" th:text="#{lang.edit}"></a></td>
         </tr>
         </tbody>
     </table>
