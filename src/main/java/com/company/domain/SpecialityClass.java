@@ -1,7 +1,5 @@
 package com.company.domain;
 
-import com.company.validation.ScoresConstraint;
-
 import javax.persistence.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -11,7 +9,7 @@ import java.util.Map;
 public class SpecialityClass {
     static final Integer MIN_SCORE_FOR_ADMISSION = 70;
     static final Integer MIN_SCORE = 0;
-    static final Integer MAX_SCORE= 100;
+    static final Integer MAX_SCORE = 100;
 
 
     @Id
@@ -22,7 +20,7 @@ public class SpecialityClass {
     private Specialty name;
 
 
-    @ElementCollection(fetch=FetchType.EAGER)
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "class_score_mapping",
             joinColumns = {@JoinColumn(name = "speciality_class_id", referencedColumnName = "id")})
     @MapKeyColumn(name = "class_name")
@@ -65,7 +63,7 @@ public class SpecialityClass {
 
     public boolean isAccepted() {
         Map<String, Integer> scores = getClassNameScoreMap();
-        if(scores != null) {
+        if (scores != null) {
             for (String key : scores.keySet()) {
                 if (scores.get(key) < MIN_SCORE_FOR_ADMISSION) {
                     return false;

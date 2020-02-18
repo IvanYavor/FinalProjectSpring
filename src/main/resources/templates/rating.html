@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Rating</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 
 </head>
 <body>
@@ -27,7 +27,7 @@
     <tr th:each="student : ${doctors}">
         <td th:text="${student.fullName}"></td>
         <td th:text="${student.specialityClass.name}"></td>
-        <td  th:text="${student.getSpecialityClass().getClassNameScoreMap()}"></td>
+        <td th:text="${student.getSpecialityClass().getClassNameScoreMap()}"></td>
     </tr>
 </table>
 <table>
@@ -39,7 +39,7 @@
     <tr th:each="student : ${chemists}">
         <td th:text="${student.fullName}"></td>
         <td th:text="${student.specialityClass.name}"></td>
-        <td  th:text="${student.getSpecialityClass().getClassNameScoreMap()}"></td>
+        <td th:text="${student.getSpecialityClass().getClassNameScoreMap()}"></td>
     </tr>
 </table>
 </body>

@@ -19,19 +19,19 @@
             <td>
                 <strong th:utext="#{lang.registration.username}"></strong>
             </td>
-            <td><input name="username"    th:field="${user.username}"/></td>
+            <td><input name="username" th:field="${user.username}"/></td>
             <td th:if="${#fields.hasErrors('username')}" th:errors="*{username}">User Name Error</td>
         </tr>
         <tr>
             <td>
-                <strong  th:utext="#{lang.registration.password}"></strong>
+                <strong th:utext="#{lang.registration.password}"></strong>
             </td>
             <td><input type="password" name="password" th:field="${user.password}"/></td>
             <td th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error</td>
         </tr>
         <tr>
             <td>
-                <strong  th:utext="#{lang.registration.fullName}"></strong>
+                <strong th:utext="#{lang.registration.fullName}"></strong>
             </td>
             <td><input type="text" name="fullName" th:field="${user.fullName}"/></td>
             <td th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}">Full Name Error</td>
@@ -40,7 +40,7 @@
 
         <tr>
             <td colspan="2">
-                <input type="submit" th:value="#{lang.registration.create_account}" />
+                <input type="submit" th:value="#{lang.registration.create_account}"/>
             </td>
         </tr>
     </table>

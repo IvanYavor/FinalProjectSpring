@@ -32,7 +32,7 @@ public class UserController {
         model.addAttribute("user", user);
         model.addAttribute("id", user.getId());
         model.addAttribute("roles", Role.values());
-        if(user.getSpecialityClass() != null) {
+        if (user.getSpecialityClass() != null) {
             model.addAttribute("scoresMap", user.getSpecialityClass().getClassNameScoreMap());
         }
         return "userEdit";
@@ -42,18 +42,18 @@ public class UserController {
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
     public String userSave(
-            @RequestParam String username,
+//            @RequestParam String username,
             @RequestParam Map<String, String> form,
             @RequestParam("userId") User user,
             Model model
     ) {
         try {
-            userService.saveUser(user, username, form);
+            userService.saveUser(user, form);
         } catch (RangeScoreException e) {
             model.addAttribute("ScoreErrors", "Score should be in range");
             model.addAttribute("user", user);
             model.addAttribute("roles", Role.values());
-            if(user.getSpecialityClass() != null) {
+            if (user.getSpecialityClass() != null) {
                 model.addAttribute("scoresMap", user.getSpecialityClass().getClassNameScoreMap());
             }
             return "userEdit";

@@ -2,12 +2,12 @@ package com.company.domain;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.Collection;
-
 import java.util.Set;
 
 @Entity
@@ -17,29 +17,29 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @NotNull
-    @Size(min=2, max=20, message="Invalid Username")
+    @Size(min = 2, max = 20, message = "Invalid Username")
     private String username;
 
     @NotNull
-    @Pattern(regexp= "^[A-Z][a-z]*(\\s[A-Z][a-z]*)+$", message="Invalid Full Name")
+    @Pattern(regexp = "^[A-Z][a-z]*(\\s[A-Z][a-z]*)+$", message = "Invalid Full Name")
     private String fullName;
 
 
-   @ManyToOne(cascade = {CascadeType.ALL})
-   @CollectionTable(name="speciality_class_in_user", joinColumns = @JoinColumn(name="user_id", nullable=false) )
+    @ManyToOne(cascade = {CascadeType.ALL})
+    @CollectionTable(name = "speciality_class_in_user", joinColumns = @JoinColumn(name = "user_id", nullable = false))
     private SpecialityClass specialityClass = new SpecialityClass();
 
     @NotNull
-    @Size(min = 1, max=36, message="Invalid Password")
+    @Size(min = 1, max = 36, message = "Invalid Password")
     private String password;
 
-    @Column(name="is_accepted", columnDefinition="boolean default false")
+    @Column(name = "is_accepted", columnDefinition = "boolean default false")
     private boolean isAccepted;
 
     @Column(columnDefinition = "boolean default true")
     private boolean active;
 
-    @ElementCollection(targetClass =  Role.class, fetch = FetchType.EAGER)
+    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
@@ -52,7 +52,6 @@ public class User implements UserDetails {
         this.username = username;
         this.fullName = fullName;
     }
-
 
 
     public Long getId() {
@@ -137,14 +136,6 @@ public class User implements UserDetails {
     public void setPassword(String password) {
         this.password = password;
     }
-
-//    public boolean isActive() {
-//        return active;
-//    }
-//
-//    public void setActive(boolean active) {
-//        this.active = active;
-//    }
 
     public Set<Role> getRoles() {
         return roles;

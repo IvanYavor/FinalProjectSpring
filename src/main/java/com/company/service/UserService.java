@@ -2,10 +2,10 @@ package com.company.service;
 
 
 import com.company.constant.Constant;
-import com.company.domain.*;
+import com.company.domain.Role;
+import com.company.domain.User;
 import com.company.exception.RangeScoreException;
 import com.company.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static java.lang.Integer.parseInt;
 
@@ -33,7 +32,7 @@ public class UserService implements UserDetailsService {
     public boolean addUser(User user) {
         User userFromDb = userRepository.findByUsername(user.getUsername());
 
-        if(userFromDb != null) {
+        if (userFromDb != null) {
             return false;
         }
 
@@ -49,22 +48,20 @@ public class UserService implements UserDetailsService {
     }
 
 
-    public void saveUser(User user, String username, Map<String, String> form) throws RangeScoreException {
+    public void saveUser(User user, Map<String, String> form) throws RangeScoreException {
         Map<String, Integer> scores = new HashMap<>();
-        for(String key: form.keySet()) {
-            if(user.getSpecialityClass().getClassNameScoreMap().containsKey(key)) {
+        for (String key : form.keySet()) {
+            if (user.getSpecialityClass().getClassNameScoreMap().containsKey(key)) {
                 scores.put(key, parseInt(form.get(key)));
             }
         }
 
-        for(String key : scores.keySet()) {
-            if(!checkRangeScore(scores.get(key))) {
+        for (String key : scores.keySet()) {
+            if (!checkRangeScore(scores.get(key))) {
                 throw new RangeScoreException("Score is out of range");
             }
         }
 
-
-        user.setUsername(username);
 
         Set<String> roles = Arrays.stream(Role.values())
                 .map(Role::name)
@@ -80,8 +77,6 @@ public class UserService implements UserDetailsService {
         }
 
         user.getSpecialityClass().setClassNameScoreMap(scores);
-
-//        user.setAccepted(checkIfAccepted(user));
         user.setAccepted(user.getSpecialityClass().isAccepted());
 
         userRepository.save(user);
@@ -91,15 +86,4 @@ public class UserService implements UserDetailsService {
     private boolean checkRangeScore(Integer score) {
         return score >= Constant.MIN_SCORE && score <= Constant.MAX_SCORE;
     }
-
-//    private boolean checkIfAccepted(User user) {
-//        Map<String, Integer> scores = user.getSpecialityClass().getClassNameScoreMap();
-//        for(String key : scores.keySet()) {
-//            if(scores.get(key) < 70) {
-//                return false;
-//            }
-//        }
-//        return true;
-//    }
-
 }

@@ -16,14 +16,14 @@
 
 
 <div th:if="${!#lists.contains(user.roles, admin)}">
-    <form  th:action="@{/reg-speciality}" method="post">
+    <form th:action="@{/reg-speciality}" method="post">
         <div th:if="${user.specialityClass.classNameScoreMap.isEmpty()}">
-                        <div th:text="#{lang.profile.choose_speciality}"></div>
-                        <div th:each="s : ${specialities}">
-                            <input type="radio" th:value="${s}" name="speciality" />
-                            <label th:text="${s}" /></label>
-                        </div>
-                        <button type="submit" th:text="#{lang.apply}"></button>
+            <div th:text="#{lang.profile.choose_speciality}"></div>
+            <div th:each="s : ${specialities}">
+                <input type="radio" th:value="${s}" name="speciality"/>
+                <label th:text="${s}"/></label>
+            </div>
+            <button type="submit" th:text="#{lang.apply}"></button>
         </div>
     </form>
 </div>
@@ -34,7 +34,6 @@
 <div th:if="${#lists.contains(user.roles, admin)}">
     <p th:text="#{lang.profile.you_are} + #{lang.admin}"></p>
 </div>
-
 
 
 </body>
